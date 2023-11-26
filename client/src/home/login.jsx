@@ -1,32 +1,35 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { loginCard } from '../styles/login';
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { loadUser, login } from '../redux/auth/slices/authSlice';
+import authServices from '../services/auth.service';
 
-const API_URL = 'http://localhost:3001';
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const user = useSelector(({ user }) => user);
+  useEffect(() => {
+    dispatch(loadUser());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (authServices.getCurrentUser()) history.push('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/login`, {
-        username,
-        password,
-      });
-      const token = response.data.token;
-      if (token) history.push(`/`);
-      console.log('Token:', token);
-      setUsername('');
-      setPassword('');
-      setError('');
+      unwrapResult(await dispatch(login({ email, password })));
+      history.pushState('/');
     } catch (error) {
-      setError('Invalid credentials');
+      console.log(error);
     }
   };
-
   return (
     <div
       className='shadow-sm border-0 px-3 rounded-2 mb-1 py-4 mx-auto mt-5 bg-light'
@@ -41,12 +44,12 @@ function Login() {
                 <span className='text-danger'></span>
               </label>{' '}
               <input
-                type='text'
-                id='username'
-                placeholder='username'
-                value={username}
+                type='email'
+                id='email'
+                placeholder='email'
+                value={email}
                 className='form-control'
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className='form-group'>
@@ -64,7 +67,7 @@ function Login() {
               />
             </div>
             <br />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
             <button
               className='btn btn-primary btn-lg w-100 text-uppercase'
               onClick={handleLogin}

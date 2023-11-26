@@ -1,59 +1,31 @@
+require('dotenv').config();
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const port = 3001;
-const secretKey = 'masoodsecretkey';
 
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
+const docnnectDB = require('./utils/connectDB');
+docnnectDB();
 
-const users = [
-  { id: 1, username: 'user1', password: 'password1' },
-  { id: 2, username: 'user2', password: 'password2' },
-];
+//get all user
+app.use('/api/user/users', require('./routes/user.routes'));
 
-//login
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
+//signup user
+app.use('/api/user/signup', require('./routes/user.routes'));
 
-  const user = users.find(
-    (u) => u.username === username && u.password === password
-  );
+//get token verificatin
+app.use(`/api/auth/token`, require('./routes/login.routes'));
 
-  if (!user) {
-    return res.status(401).json({ message: 'Invalid credentials' });
-  }
+//get single user
+app.use('/api/auth/user', require('./routes/login.routes'));
 
-  const token = jwt.sign(
-    { id: user.id, username: user.username, password: user.password },
-    secretKey,
-    {
-      expiresIn: '1h',
-    }
-  );
-
-  res.json({ token });
-});
-
-const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'];
-
-  if (!token) {
-    return res.status(403).json({ message: 'Token not provided' });
-  }
-
-  const decoded = jwt.verify(token, secretKey);
-  req.user = decoded;
-  next();
-};
-
-app.get('/protected', verifyToken, (req, res) => {
-  res.json({ message: 'Protected route accessed', user: req.user });
-});
+//login user
+app.use(`/api/auth/login`, require('./routes/login.routes'));
 
 // Start the server
-app.listen(port, () => {
+const port = 3001;
+const server = app.listen(port, () => {
   console.log(`Server is running on: ${port}`);
 });
+module.exports = server;
