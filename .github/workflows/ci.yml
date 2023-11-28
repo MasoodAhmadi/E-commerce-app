@@ -6,42 +6,21 @@ on:
       - main
 
 jobs:
-  build-client:
+  test-utility:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup Node.js - Client
+    - name: Setup Node.js - E-commerce
       uses: actions/setup-node@v3
       with:
         node-version: 14
 
-    - name: Install dependencies - Client
+    - name: Install dependencies - E-commerce
       run: npm install
-      working-directory: ./client
+      working-directory: ./
 
-    - name: Build React app - Client
-      run: npm run build
-      working-directory: ./client
-
-  test-server:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Setup Node.js - Server
-      uses: actions/setup-node@v3
-      with:
-        node-version: 14
-
-    - name: Install dependencies - Server
-      run: npm install
-      working-directory: ./server
-
-    - name: Run tests - Server
+    - name: Run tests - E-commerce
       run: npm test
-      working-directory: ./server
+      working-directory: ./
