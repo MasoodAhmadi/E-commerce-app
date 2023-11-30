@@ -36,3 +36,5 @@ npm install && npm start
 ```bash
 npm install && npm run dev
 ```
+
+    "test": "nyc jest --verbose ./src/test --coverage && cat ./coverage/lcov.info | coveralls-next",
