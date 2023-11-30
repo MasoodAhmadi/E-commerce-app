@@ -14,7 +14,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-env": "^7.23.5",
     "chai": "^4.3.10",
     "coveralls": "^3.1.1",
     "coveralls-next": "^4.2.0",
