@@ -36,7 +36,7 @@ jobs:
       - name: Upload coverage to Coveralls
         run: |
           npm install -g coveralls
-          coveralls --token PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg
+          coveralls --token PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg --working-directory ./
         env:
           CI_NAME: github
           CI_BUILD_NUMBER: ${{ github.run_id }}
