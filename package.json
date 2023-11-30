@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test:coveralls": "jest --verbose ./src/test --coverage && coveralls < coverage/lcov.info",
-    "test": "jest --verbose ./src/test --coverage && cat ./coverage/lcov.info | coveralls-next",
-    "test1": "jest --verbose ./src/test --coverage && coveralls < coverage/lcov.info",
-    "test2": "coveralls < coverage/lcov.info",
-    "test_demo": "jest --verbose ./src/test --coverage"
+    "build": "rollup -c",
+    "lint": "eslint src/*.tsx --quiet --fix",
+    "test": "jest",
+    "test:coveralls": "jest --coverage && coveralls < coverage/lcov.info"
   },
   "author": "",
   "license": "MIT",
