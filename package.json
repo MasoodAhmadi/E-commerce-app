@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest ./src/test",
-    "test:coveralls": "jest --verbose ./src/test --coverage && coveralls < coverage/lcov.info"
+    "test": "jest",
+    "test:coveralls": "jest ./src/test --coverage && coveralls < coverage/lcov.info"
   },
   "author": "",
   "license": "MIT",
