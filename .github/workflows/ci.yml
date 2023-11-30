@@ -8,8 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      COVERALLS_TOKEN: PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg
+    # env:
+    #   COVERALLS_TOKEN: PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -26,12 +26,24 @@ jobs:
         run: npm run test
         working-directory: ./
 
-      - name: Upload to Coveralls
-        env:
-          CI: true
+      # - name: Upload to Coveralls
+      #   env:
+      #     CI: true
+      #   run: |
+      #     npm install -g coveralls
+      #     coveralls
+
+      - name: Upload coverage to Coveralls
         run: |
           npm install -g coveralls
-          coveralls
+          coveralls --token PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg
+        env:
+          CI_NAME: github
+          CI_BUILD_NUMBER: ${{ github.run_id }}
+          CI_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          CI_BRANCH: ${{ github.ref }}
+          COVERALLS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        if: always()
 
   # test-utility:
   #   runs-on: ubuntu-latest
