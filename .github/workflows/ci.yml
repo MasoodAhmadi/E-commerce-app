@@ -11,13 +11,28 @@ jobs:
     env:
       COVERALLS_TOKEN: PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
       - name: Install dependencies
         run: npm install
         working-directory: ./
+
       - name: Run tests and generate coverage report
         run: npm run test
         working-directory: ./
+
+      - name: Upload to Coveralls
+        env:
+          CI: true
+        run: |
+          npm install -g coveralls
+          coveralls
+
   # test-utility:
   #   runs-on: ubuntu-latest
   #   steps:
