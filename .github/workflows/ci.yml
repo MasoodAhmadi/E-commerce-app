@@ -6,21 +6,37 @@ on:
       - main
 
 jobs:
-  test-utility:
+  test:
     runs-on: ubuntu-latest
+    env:
+      COVERALLS_TOKEN: ZDcH99gcSMSbZUKiDYNIa2kB49PtOQyJu
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./
+      - name: Run tests and generate coverage report
+        run: npm run test
+        working-directory: ./
+  # test-utility:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
 
-    - name: Setup Node.js - E-commerce
-      uses: actions/setup-node@v3
-      with:
-        node-version: 14
+  #   - name: Setup Node.js - E-commerce
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 14
 
-    - name: Install dependencies - E-commerce
-      run: npm install
-      working-directory: ./
+  #   - name: Install dependencies - E-commerce
+  #     run: npm install
+  #     working-directory: ./
 
-    - name: Run tests - E-commerce
-      run: npm test
-      working-directory: ./
+    # - name: Run tests - E-commerce
+    #   run: npm test
+    #   working-directory: ./
+
+    # - name: Coveralls GitHub Action       
+    #   uses: coverallsapp/github-action@v2.2.3
+    
