@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      COVERALLS_TOKEN: ZDcH99gcSMSbZUKiDYNIa2kB49PtOQyJu
+      COVERALLS_TOKEN: PVZPq4oBiIgcljd7p0ODliKblxRY5oAzg
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
@@ -33,10 +33,9 @@ jobs:
   #     run: npm install
   #     working-directory: ./
 
-    # - name: Run tests - E-commerce
-    #   run: npm test
-    #   working-directory: ./
+  # - name: Run tests - E-commerce
+  #   run: npm test
+  #   working-directory: ./
 
-    # - name: Coveralls GitHub Action       
-    #   uses: coverallsapp/github-action@v2.2.3
-    
+  # - name: Coveralls GitHub Action
+  #   uses: coverallsapp/github-action@v2.2.3
